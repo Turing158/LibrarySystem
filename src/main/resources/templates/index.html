@@ -12,13 +12,12 @@
 <body>
     <ul class="leftUl">
         <li class="ulTitle">图书管理系统</li>
-        <li class="active"><a href="">主页</a></li>
-        <li><a href="">图书列表</a></li>
-        <li><a href="">用户列表</a></li>
-        <li><a href="">图书编辑</a></li>
-        <li class="login"><a href="">登录</a></li>
-        <!-- <li class="user">某某某<div class="exit">退出登录</div></li> -->
-        
+        <li class="active"><a href="/home">主页</a></li>
+        <li><a href="/book">图书列表</a></li>
+        <li><a href="/user">用户列表</a></li>
+        <li><a href="/editbook">图书编辑</a></li>
+        <li class="login" th:if="${session.user == null}"><a href="/login">登录</a></li>
+        <li class="user" th:if="${session.user != null}"><span th:text="${session.user.getUser_name()}">某某某</span><div class="exit" onclick="exit()">退出登录</div></li>
     </ul>
     <div class="main">
         <div id="ppt" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">

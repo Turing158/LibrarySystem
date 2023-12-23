@@ -55,16 +55,26 @@ body{
     left: -150px;
     background-color: rgb(92, 92, 92);
     color: aliceblue;
+    cursor: pointer;
 }
 .user:hover .exit{
     left: 0;
 }
-.main{
+
+.main {
     position: relative;
     width: calc(100vw - 180px);
-    /* background-color: antiquewhite; */
     height: calc(100vh - 30px);
     left: 15px;
     top: 15px;
+    animation: slideIn 0.5s ease-in-out;
 }
 
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

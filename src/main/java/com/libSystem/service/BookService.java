@@ -5,6 +5,7 @@ import com.libSystem.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,6 +14,21 @@ public class BookService {
     @Autowired
     BookDaoImpl bookDao;
 
+    public String bookList(
+            HttpSession session,
+            int page){
+        if(page <= 0){
+            page = 1;
+        }
+        List<ShowBook> books = bookDao.findAll((page-1)*10);
+        session.setAttribute("books",books);
+        Page pageBook = new Page();
+        pageBook.setPageNow(page);
+        int count = bookDao.countAll();
+        pageBook.setEnd((count+9)/10);
+        session.setAttribute("page",pageBook);
+        return "success";
+    }
 //    获取所有书
     public Result findAllBook(int page){
         Result result = new Result();

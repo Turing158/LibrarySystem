@@ -1,31 +1,46 @@
 package com.libSystem.service;
 
 import com.libSystem.dao.UserDaoImpl;
+import com.libSystem.entity.Page;
 import com.libSystem.entity.Result;
 import com.libSystem.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 public class UserService {
     @Autowired
     UserDaoImpl userDao;
 
+
+    public String userList(
+            HttpSession session,
+            int page
+    ){
+        List<User> users =  userDao.findAll((page-1)*10);
+        session.setAttribute("users",users);
+        Page userPage = new Page();
+        userPage.setPageNow(page);
+        userPage.setEnd((userDao.countUser()+9)/10);
+        session.setAttribute("page",userPage);
+        return "success";
+    }
+
+
 //    用户登录业务
-    public Result userLogin(String userId,String password){
-        Result result = new Result();
+    public String userLogin(String userId,String password,HttpSession session){
         if(userDao.existUser(userId) == 1){
             User user = userDao.findUser(userId);
             if(user.getUser_password().equals(password)){
-                result.setStatus("success");
-                result.setObject(user);
-                return result;
+                session.setAttribute("user",user);
+                return "success";
             }
-            result.setStatus("密码错误！");
-            return result;
+            return "error-password";
         }
-        result.setStatus("该用户不存在！");
-        return result;
+        return "error-user";
     }
 
 //  用户注册业务
