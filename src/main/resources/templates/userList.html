@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/content.css">
+    <title>图书列表</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js" type="text/javascript"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+    <ul class="leftUl">
+        <li class="ulTitle">图书管理系统</li>
+        <li><a href="">主页</a></li>
+        <li><a href="">图书列表</a></li>
+        <li class="active"><a href="">用户列表</a></li>
+        <li><a href="">图书编辑</a></li>
+        <li class="login"><a href="">登录</a></li>
+        <!-- <li class="user">某某某<div class="exit">退出登录</div></li> -->
+    </ul>
+    <div class="main">
+        <table>
+          <tr>
+            <th>用户名</th>
+            <th>名称</th>
+            <th>密码</th>
+            <th>权限</th>
+            <th>操作</th>
+          </tr>
+          <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>author</td>
+            <td>publisher</td>
+            <td>
+              <button class="edit-button">编辑</button>
+              <button class="delete-button">删除</button>
+            </td>
+          </tr>
+        </table>
+        <div class="operatePage">
+            <button class="pagination-button">首页</button>
+            <button class="pagination-button">上一页</button>
+            <span class="currentPage">第1页</span>
+            <span class="totalPage">共1页</span>
+            <button class="pagination-button">下一页</button>
+            <button class="pagination-button">尾页</button>
+            <input type="text" class="pagination-input" placeholder="">
+            <button class="pagination-button">跳转</button>
+        </div>
+    </div>
+</body>
+<script src="js/index.js"></script>
+</html>

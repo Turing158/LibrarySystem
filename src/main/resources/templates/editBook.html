@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑书籍</title>
+    <link rel="stylesheet" href="css/edit.css">
+</head>
+<body>
+    <h1>正在编辑书籍. . .</h1>
+    <form>
+        <label for="id">书号:</label>
+        <input type="text" id="id" name="id" disabled><br><br>
+
+        <label for="name">书名:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="author">作者:</label>
+        <input type="text" id="author" name="author" required><br><br>
+
+        <label for="publisher">出版社:</label>
+        <input type="text" id="publisher" name="publisher" required><br><br>
+
+        <label for="permissions">类型:</label>
+        <select id="permissions" name="permissions" required>
+            <option value="" hidden></option>
+            <option value="0">普通用户</option>
+            <option value="1">管理员</option>
+        </select><br><br>
+        
+        <label for="date">入库时间:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <label for="count">数量:</label>
+        <input type="text" id="count" name="count" required><br><br>
+
+        <button type="submit">提交</button><button class="cancel" type="button">取消</button>
+    </form>
+</body>
+</html>
