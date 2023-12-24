@@ -29,6 +29,21 @@ public class BookService {
         session.setAttribute("page",pageBook);
         return "success";
     }
+
+    public String userBookList(
+            HttpSession session,
+            int page
+    ){
+        User user = (User) session.getAttribute("user");
+        List<UserBook> books = bookDao.findUserBook(user.getUser_id(),(page-1)*10);
+        session.setAttribute("userBooks",books);
+        Page pageBook = new Page();
+        pageBook.setPageNow(page);
+        int count = bookDao.countUserBook(user.getUser_id());
+        pageBook.setEnd((count+9)/10);
+        session.setAttribute("page",pageBook);
+        return "success";
+    }
 //    获取所有书
     public Result findAllBook(int page){
         Result result = new Result();
@@ -154,11 +169,15 @@ public class BookService {
     }
 
 //    借书业务
-    public Result borrowBook(String bookId,String user){
-        Result result = new Result();
+    public String borrowBook(String bookId,HttpSession session){
+        User user = (User) session.getAttribute("user");
         Book book = bookDao.findBookById(bookId);
+        if(book.getBook_count() == 0){
+            session.setAttribute("tips","书已经借完");
+            return "error";
+        }
         BookLog bookLog = new BookLog();
-        bookLog.setUser_id(user);
+        bookLog.setUser_id(user.getUser_id());
         bookLog.setBook_id(bookId);
         LocalDateTime localDateTime = LocalDateTime.now();
         String date = localDateTime.getYear()+"-"+localDateTime.getMonthValue()+"-"+localDateTime.getDayOfMonth()+" "+localDateTime.getHour()+":"+localDateTime.getMinute()+":"+localDateTime.getSecond();
@@ -166,18 +185,18 @@ public class BookService {
         bookLog.setLog_status(1);
         bookDao.borrowBook(bookLog);
         bookDao.updateBookCount(book.getBook_id(),book.getBook_count()-1);
-        result.setStatus("success");
-        return result;
+        session.setAttribute("tips","借书成功");
+        return "success";
     }
 
 //  还书业务
-    public Result backBook(String book_id,String user,String date){
-        Result result = new Result();
-        bookDao.backBook(book_id, user , date);
+    public String backBook(String book_id,String date,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        bookDao.backBook(book_id, user.getUser_id() , date);
         Book book = bookDao.findBookById(book_id);
         bookDao.updateBookCount(book.getBook_id(),book.getBook_count()+1);
-        result.setStatus("success");
-        return result;
+        session.setAttribute("tips","还书成功");
+        return "success";
     }
 
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/starfall.png" type="image/x-icon">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/font.css">
+    <script src="./js/login.js"></script>
+</head>
+<body>
+    <div class="loginDIv">
+        <button class="back" onclick="window.location.href='/home'">
+            <span>home</span>
+            <br>
+            <span>首页</span>
+        </button>
+        <form action="userLogin" method="post">
+            <br><br>
+            <h1>登&emsp;录</h1><br><br>
+        <input type="text" class="user_input" th:value="${session.userId}" name="user" required>
+        <span class="user_span">用户名：</span>
+        <div class="user_underline"></div>
+        <br>
+        <input type="password" class="pass_input" name="password" required th:value="${session.loginPassword}">
+        <span class="pass_span">密&emsp;码：</span>
+        <div class="pass_underline"></div>
+        <br>
+        <input type="text" class="code_input" name="code" required>
+        <span class="code_span">验证码：</span>
+        <div class="code_underline"></div>
+        <img src="/jpegCode" alt="VerifyCode" onclick="Change()" id="img_code">
+        <p th:text="${session.loginTips}">info</p>
+            <div class="operate">
+                <input type="submit" value="登录" class="login">
+                <button class="reg" onclick="window.location='/reg';">注册</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    function Change() {
+    var img = document.getElementById("img_code")
+    var date = new Date().getTime();
+    img.src="jpegCode?"+date;
+}
+</script>
+</html>

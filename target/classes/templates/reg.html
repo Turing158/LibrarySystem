@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/starfall.png" type="image/x-icon">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/reg.css">
+    <link rel="stylesheet" href="css/font.css">
+
+</head>
+<body>
+    <div class="regDiv">
+        <button class="back" onclick="window.location.href='/home'">
+            <span>home</span>
+            <br>
+            <span>首页</span>
+        </button>
+        <form action="/userReg" method="post">
+            <br><br>
+            <h1>注&emsp;册</h1><br><br>
+            <input type="text" class="user_input" name="user" th:value="${session.regUser}" onfocusout="checkUser()" maxlength="15" required>
+            <span class="user_span">用户名：</span>
+            <div class="user_underline"></div>
+            <br>
+            <input type="password" class="pass_input" name="password" th:value="${session.regPassword}" onfocusout="checkPwd()" required>
+            <span class="pass_span">密&emsp;码：</span>
+            <div class="pass_underline"></div>
+            <br>
+            <input type="text" class="email_input" name="name" th:value="${session.regName}" required>
+            <span class="email_span">名&emsp;称：</span>
+            <div class="email_underline"></div>
+            <br>
+            <input type="text" class="code_input" name="code" maxlength="4" required>
+            <span class="code_span">验证码：</span>
+            <div class="code_underline"></div>
+            <img src="/jpegCode" alt="VerifyCode" onclick="Change()" id="img_code">
+            <p th:text="${session.regTips}" class="tips">&nbsp;</p>
+            <input type="submit" value="注册" class="reg">
+            <button class="login" onclick="window.location='/login';">返回登录</button>
+        </form>
+    </div>
+</body>
+<script src="js/reg.js"></script>
+</html>

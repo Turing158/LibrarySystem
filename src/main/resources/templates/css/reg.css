@@ -41,7 +41,7 @@ body{
 }
 .back span:last-child{
     position: relative;
-    top: -20px;
+    top: -15px;
 }
 .back:hover span:first-child{
     top: 5px;
@@ -147,7 +147,7 @@ p{
     text-align: center;
     height: 40px;
     left: 150px;
-    
+    color: darkred;
 }
 .reg{
     left: 100px;

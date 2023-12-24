@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/content.css">
-    <title>图书列表</title>
+    <title>用户列表</title>
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js" type="text/javascript"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.js" type="text/javascript"></script>
 </head>
 <body>
-    <ul class="leftUl">
+<div class="alert alert-success" th:if="${session.tips != null}">
+    <strong th:text="${session.tips}">成功!</strong>
+</div>
+    <main>
+      <ul class="leftUl">
         <li class="ulTitle">图书管理系统</li>
         <li><a href="/home">主页</a></li>
         <li><a href="/book">图书列表</a></li>
-        <li class="active"><a href="/user">用户列表</a></li>
-        <li><a href="/editbook">图书编辑</a></li>
+        <li><a href="/userBook">已借列表</a></li>
+        <li class="active" th:if="${!(session.user == null || session.user.getUser_permission() != 1)}"><a href="/user">用户列表</a></li>
+        <li th:if="${!(session.user == null || session.user.getUser_permission() != 1)}"><a href="/editbook">图书编辑</a></li>
         <li class="login" th:if="${session.user == null}"><a href="/login">登录</a></li>
         <li class="user" th:if="${session.user != null}"><span th:text="${session.user.getUser_name()}">某某某</span><div class="exit" onclick="exit()">退出登录</div></li>
     </ul>
@@ -51,6 +56,8 @@
         </div>
         <script src="js/page.js"></script>
     </div>
+    </main>
 </body>
+<script src="js/operate.js"></script>
 <script src="js/index.js"></script>
 </html>

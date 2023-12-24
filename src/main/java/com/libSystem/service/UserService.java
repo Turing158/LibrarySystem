@@ -31,32 +31,54 @@ public class UserService {
 
 
 //    用户登录业务
-    public String userLogin(String userId,String password,HttpSession session){
-        if(userDao.existUser(userId) == 1){
-            User user = userDao.findUser(userId);
-            if(user.getUser_password().equals(password)){
-                session.setAttribute("user",user);
-                return "success";
+    public String userLogin(String userId,String password,String code,HttpSession session){
+        String codeSession = (String) session.getAttribute("code");
+        session.setAttribute("userId",userId);
+        session.setAttribute("loginPassword",password);
+        if(code.equals(codeSession)){
+            if(userDao.existUser(userId) == 1){
+                User user = userDao.findUser(userId);
+                if(user.getUser_password().equals(password)){
+                    session.setAttribute("user",user);
+                    session.setAttribute("tips","登录成功！");
+                    session.removeAttribute("userId");
+                    session.removeAttribute("loginPassword");
+                    return "success";
+                }
+                session.setAttribute("loginTips","密码错误！");
+                return "error-password";
             }
-            return "error-password";
+            session.setAttribute("loginTips","用户不存在！");
+            return "error-user";
         }
-        return "error-user";
+        session.setAttribute("loginTips","验证码错误！");
+        return "error-code";
     }
 
 //  用户注册业务
-    public Result UserRegister(String userId,String password){
-        Result result = new Result();
-        if(userDao.existUser(userId) == 0){
-            int status = userDao.insertUser(new User(userId,"新用户",password,0));
-            if(status == 1){
-                result.setStatus("success");
-                return result;
+    public String UserRegister(String userId,String password,String name,String code,HttpSession session){
+        String codeSession = (String) session.getAttribute("code");
+        session.setAttribute("regUser",userId);
+        session.setAttribute("regPassword",password);
+        session.setAttribute("regName",name);
+        if(code.equals(codeSession)){
+            if(userDao.existUser(userId) == 0){
+                int status = userDao.insertUser(new User(userId,name,password,0));
+                if(status == 1){
+                    session.removeAttribute("regUser");
+                    session.removeAttribute("regPassword");
+                    session.removeAttribute("regName");
+                    session.setAttribute("loginTips","注册成功，请登录！");
+                    return "success";
+                }
+                session.setAttribute("regTips","注册失败！");
+                return "error";
             }
-            result.setStatus("error");
-            return result;
+            session.setAttribute("regTips","用户已存在！");
+            return "error-user";
         }
-        result.setStatus("该用户已经存在！");
-        return result;
+        session.setAttribute("regTips","验证码错误！");
+        return "error-code";
     }
 
 //    获取所有用户数量

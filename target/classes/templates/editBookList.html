@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/content.css">
+    <title>图书编辑</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js" type="text/javascript"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="alert alert-success" th:if="${session.tips != null}">
+    <strong th:text="${session.tips}">成功!</strong>
+</div>
+    <main>
+      <ul class="leftUl">
+        <li class="ulTitle">图书管理系统</li>
+        <li><a href="/home">主页</a></li>
+        <li><a href="/book">图书列表</a></li>
+        <li><a href="/userBook">已借列表</a></li>
+        <li th:if="${!(session.user == null || session.user.getUser_permission() != 1)}"><a href="/user">用户列表</a></li>
+        <li class="active" th:if="${!(session.user == null || session.user.getUser_permission() != 1)}"><a href="/editbook">图书编辑</a></li>
+        <li class="login" th:if="${session.user == null}"><a href="/login">登录</a></li>
+        <li class="user" th:if="${session.user != null}"><span th:text="${session.user.getUser_name()}">某某某</span><div class="exit" onclick="exit()">退出登录</div></li>
+    </ul>
+    <div class="main">
+      <button class="add-book-button">添加书籍</button>
+      <br><br>
+        <table>
+          <tr>
+            <th>书号</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>类型</th>
+            <th>位置</th>
+            <th>入库日期</th>
+            <th>数量</th>
+            <th>操作</th>
+          </tr>
+          <tr th:each="book : ${session.books}">
+              <td th:text="${book.getBook_id()}">id</td>
+              <td th:text="${book.getBook_name()}">name</td>
+              <td th:text="${book.getBook_author()}">author</td>
+              <td th:text="${book.getBook_publisher()}">publisher</td>
+              <td th:text="${book.getType_name()}">type</td>
+              <td th:text="${book.getType_position()}">position</td>
+              <td th:text="${book.getBook_date()}">date</td>
+              <td th:text="${book.getBook_count()}">count</td>
+            <td><button class="edit-button">编辑</button><button class="delete-button">删除</button></td>
+          </tr>
+        </table>
+        <div class="operatePage">
+            <button class="pagination-button" th:onclick="|first('editbook',${session.page.getPageNow()})|">首页</button>
+            <button class="pagination-button" th:onclick="|previous('editbook',${session.page.getPageNow()})|">上一页</button>
+            <span class="currentPage" th:text="'第'+${session.page.getPageNow()}+'页'">第1页</span>
+            <span class="totalPage" th:text="'第'+${session.page.getEnd()}+'页'">共1页</span>
+            <button class="pagination-button" th:onclick="|next('editbook',${session.page.getPageNow()},${session.page.getEnd()})|">下一页</button>
+            <button class="pagination-button" th:onclick="|end('editbook',${session.page.getPageNow()},${session.page.getEnd()})|">尾页</button>
+            <input type="number" class="pagination-input" placeholder="">
+            <button class="pagination-button" onclick="jump('book')">跳转</button>
+        </div>
+        <script src="js/page.js"></script>
+    </div>
+    </main>
+</body>
+<script src="js/operate.js"></script>
+<script src="js/index.js"></script>
+</html>

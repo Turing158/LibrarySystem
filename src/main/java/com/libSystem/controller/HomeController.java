@@ -8,7 +8,10 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class HomeController {
     @RequestMapping(value = {"/","/home"})
-    public String home(){
+    public String home(
+            HttpSession session
+    ){
+        session.removeAttribute("loginTips");
         return "index";
     }
     @RequestMapping("/exit")

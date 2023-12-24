@@ -38,7 +38,57 @@ public class BookController {
         if(user == null){
             return "redirect:/login";
         }
+        if (user.getUser_permission() != 1){
+            return "redirect:/home";
+        }
         bookService.bookList(session,page);
         return "editBookList";
+    }
+
+    @GetMapping("/userBook")
+    public String userBookList(
+            HttpSession session,
+            @RequestParam(defaultValue = "1",required = false) int page
+    ){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/login";
+        }
+        bookService.userBookList(session,page);
+        return "userBookList";
+    }
+
+
+    @GetMapping("/borrowBook")
+    public String borrowBook(
+            @RequestParam String id,
+            HttpSession session
+    ){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/login";
+        }
+        bookService.borrowBook(id,session);
+        return "redirect:/book";
+    }
+    @GetMapping("/returnBook")
+    public String returnBook(
+            @RequestParam String id,
+            @RequestParam String date,
+            HttpSession session
+    ){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/login";
+        }
+        bookService.backBook(id,date,session);
+        return "redirect:/book";
+    }
+    @GetMapping("/clearTips")
+    public String clearTips(
+            HttpSession session
+    ){
+        session.removeAttribute("tips");
+        return "redirect:/book";
     }
 }

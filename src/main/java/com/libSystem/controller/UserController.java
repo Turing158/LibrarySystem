@@ -23,6 +23,9 @@ public class UserController {
         if(user == null){
             return "redirect:/login";
         }
+        if (user.getUser_permission() != 1){
+            return "redirect:/home";
+        }
         userService.userList(session,page);
         return "userList";
     }
@@ -30,22 +33,37 @@ public class UserController {
     public String login(){
         return "login";
     }
-
+    @GetMapping("/reg")
+    public String reg(){
+        return "reg";
+    }
     @PostMapping("/userLogin")
     public String userLogin(
             @RequestParam String user,
             @RequestParam String password,
+            @RequestParam String code,
             HttpSession session
     ){
-        String status = userService.userLogin(user,password,session);
+
+        String status = userService.userLogin(user,password,code,session);
         if(status.equals("success")){
             return "redirect:/home";
         }
-        if(status.equals("error-password")){
-            session.setAttribute("loginTips","密码错误！");
-            return "redirect:/login";
-        }
-        session.setAttribute("loginTips","用户不存在！");
         return "redirect:/login";
     }
+    @PostMapping("/userReg")
+    public String userReg(
+            @RequestParam String user,
+            @RequestParam String password,
+            @RequestParam String name,
+            @RequestParam String code,
+            HttpSession session
+    ){
+        String status = userService.UserRegister(user,password,name,code,session);
+        if(status.equals("success")){
+            return "redirect:/login";
+        }
+        return "redirect:/reg";
+    }
+
 }

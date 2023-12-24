@@ -32,7 +32,8 @@ table tr:hover {
 .borrow-button:hover,.add-book-button:hover {
     background-color: #45a049;
 }
-.edit-button {
+
+.edit-button,.return-button {
     display: inline-block;
     padding: 5px 10px;
     margin-right: 5px;
@@ -43,7 +44,7 @@ table tr:hover {
     cursor: pointer;
 }
 
-.edit-button:hover {
+.edit-button:hover,.return-button:hover {
     background-color: #1976D2;
 }
 .delete-button {

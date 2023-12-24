@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+    transition: all 300ms;
+    user-select: none;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    background-color: #f1f1f1;
+}
+main{
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    background-color: #f1f1f1;
+}
+.leftUl{
+    margin: 0;
+    padding: 0;
+    position: relative;
+    height: 100vh;
+    width: 150px;
+    background-color: #333333;
+    list-style-type: none;
+}
+.leftUl li{
+    width: 150px;
+    padding: 15px 0;
+    text-align: center;
+    overflow: hidden;
+}
+.ulTitle{
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: rgb(255, 215, 130);
+    font-family: 华文仿宋;
+    font-weight: bold;
+}
+.leftUl li:hover:not(.ulTitle){
+    background-color: rgb(92, 92, 92);
+}
+.leftUl li a{
+    padding:10px 40px;
+    text-decoration: none;
+    color: aliceblue;
+}
+.leftUl .active{
+    background-color: rgb(82, 82, 82);
+}
+.login,.user,.exit{
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+    padding: 15px 0;
+    text-align: center;
+    overflow: hidden;
+    background-color: #333333;
+    color: aliceblue;
+}
+.exit{
+    left: -150px;
+    background-color: rgb(92, 92, 92);
+    color: aliceblue;
+    cursor: pointer;
+}
+.user:hover .exit{
+    left: 0;
+}
+
+.main {
+    position: relative;
+    width: calc(100vw - 180px);
+    height: calc(100vh - 30px);
+    left: 15px;
+    top: 15px;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes tipsIn {
+    0% {
+        opacity: 0;
+        top: 20px;
+    }
+    10%{
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+        top: 20px;
+    }
+    100% {
+        opacity: 0;
+        top: -100px;
+    }
+}
+.alert{
+    position: absolute;
+    top: -100px;
+    left: 50vw;
+    padding: 10px 50px;
+    width: fit-content;
+    height: 55px;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 999;
+    animation:  tipsIn 2.5s ease-in-out;
+    opacity: 1;
+}

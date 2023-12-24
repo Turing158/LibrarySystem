@@ -20,19 +20,19 @@
         <form action="userLogin" method="post">
             <br><br>
             <h1>登&emsp;录</h1><br><br>
-        <input type="text" class="user_input" th:value="${session.userLogin}" name="user" required>
+        <input type="text" class="user_input" th:value="${session.userId}" name="user" required>
         <span class="user_span">用户名：</span>
         <div class="user_underline"></div>
         <br>
-        <input type="password" class="pass_input" name="password" required th:value="${session.password}">
+        <input type="password" class="pass_input" name="password" required th:value="${session.loginPassword}">
         <span class="pass_span">密&emsp;码：</span>
         <div class="pass_underline"></div>
         <br>
-        <input type="text" class="code_input" name="login_code" required>
+        <input type="text" class="code_input" name="code" required>
         <span class="code_span">验证码：</span>
         <div class="code_underline"></div>
         <img src="/jpegCode" alt="VerifyCode" onclick="Change()" id="img_code">
-        <p>info</p>
+        <p th:text="${session.loginTips}">info</p>
             <div class="operate">
                 <input type="submit" value="登录" class="login">
                 <button class="reg" onclick="window.location='/reg';">注册</button>

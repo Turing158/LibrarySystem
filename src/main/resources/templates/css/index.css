@@ -5,6 +5,17 @@
     user-select: none;
 }
 body{
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    background-color: #f1f1f1;
+}
+main{
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
     display: flex;
     background-color: #f1f1f1;
 }
@@ -77,4 +88,33 @@ body{
     100% {
         opacity: 1;
     }
+}
+@keyframes tipsIn {
+    0% {
+        opacity: 0;
+        top: 20px;
+    }
+    10%{
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+        top: 20px;
+    }
+    100% {
+        opacity: 0;
+        top: -100px;
+    }
+}
+.alert{
+    position: absolute;
+    top: -100px;
+    left: 50vw;
+    padding: 10px 50px;
+    width: fit-content;
+    height: 55px;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 999;
+    animation:  tipsIn 2.5s ease-in-out;
+    opacity: 1;
 }
