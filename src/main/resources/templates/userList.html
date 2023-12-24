@@ -34,10 +34,10 @@
             <th>操作</th>
           </tr>
           <tr th:each="user : ${session.users}">
-            <td th:text="${user.getUser_id()}">id</td>
+            <td th:text="${user.getUser_id()}" class="user_id">id</td>
             <td th:text="${user.getUser_name()}">name</td>
             <td th:text="${user.getUser_password()}">password</td>
-            <td th:text="${user.getUser_permission()}">publisher</td>
+            <td><span th:if="${user.getUser_permission()==0}">普通用户</span><span th:if="${user.getUser_permission()==1}">管理员</span></td>
             <td>
               <button class="edit-button">编辑</button>
               <button class="delete-button">删除</button>
@@ -52,12 +52,12 @@
             <button class="pagination-button" th:onclick="|next('user',${session.page.getPageNow()},${session.page.getEnd()})|">下一页</button>
             <button class="pagination-button" th:onclick="|end('user',${session.page.getPageNow()},${session.page.getEnd()})|">尾页</button>
             <input type="number" class="pagination-input" placeholder="">
-            <button class="pagination-button" onclick="jump('book')">跳转</button>
+            <button class="pagination-button" onclick="jump('user')">跳转</button>
         </div>
         <script src="js/page.js"></script>
     </div>
     </main>
 </body>
-<script src="js/operate.js"></script>
+<script src="js/userOperate.js"></script>
 <script src="js/index.js"></script>
 </html>

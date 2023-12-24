@@ -15,6 +15,8 @@ function GET(url){
 
 let borrowBtn = document.querySelectorAll(".borrow-button");
 let returnBtn = document.querySelectorAll(".return-button");
+let editBtn = document.querySelectorAll(".edit-button");
+let deleteBtn = document.querySelectorAll(".delete-button");
 let book_idStr = document.querySelectorAll(".book_id");
 let logDateStr = document.querySelectorAll(".log_date");
 for(let i=0;i<borrowBtn.length;i++){
@@ -31,7 +33,18 @@ for(let i=0;i<returnBtn.length;i++){
         GET("/returnBook?id="+book_id+"&date="+logDate);
     }
 }
-
+for(let i=0;i<deleteBtn.length;i++){
+    deleteBtn[i].onclick = function(){
+        book_id = book_idStr[i].textContent
+        GET("/deleteBook?id="+book_id);
+    }
+}
+for(let i=0;i<editBtn.length;i++){
+    editBtn[i].onclick = function(){
+        book_id = book_idStr[i].textContent
+        link("/editBookPage?id="+book_id);
+    }
+}
 clearTips();
 function clearTips(){
     let ajax = new XMLHttpRequest();

@@ -81,25 +81,29 @@ public class UserService {
         return "error-code";
     }
 
+    public String editUserPage(String id,HttpSession session){
+        User user = userDao.findUser(id);
+        session.setAttribute("editUser",user);
+        return "success";
+    }
 
-//    更新用户权限
-    public Result updateUserPermission(String user,int permission){
-        Result result = new Result();
-        userDao.updateUserPermission(user,permission);
-        result.setStatus("success");
-        return result;
+//    更新用户信息
+    public String updateUser(User user,HttpSession session){
+        userDao.updateUser(user);
+        session.setAttribute("tips","更新用户信息成功！");
+        session.removeAttribute("editUser");
+        return "success";
     }
 
 //    删除用户
-    public Result deleteUser(String user){
-        Result result = new Result();
+    public String deleteUser(String user,HttpSession session){
         if(userDao.existLogByUser(user) == 0){
             userDao.deleteUser(user);
-            result.setStatus("success");
-            return result;
+            session.setAttribute("tips","删除用户成功！");
+            return "success";
         }
-        result.setStatus("该用户存在书未还！");
-        return result;
+        session.setAttribute("tips","此用户有借书记录，无法删除！");
+        return "error";
     }
 
 }

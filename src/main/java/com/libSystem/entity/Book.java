@@ -11,6 +11,16 @@ public class Book {
 
     public Book(){}
 
+    public Book(String book_id, String book_name, String book_author, String book_publisher, String book_type, String book_date, int book_count) {
+        this.book_id = book_id;
+        this.book_name = book_name;
+        this.book_author = book_author;
+        this.book_publisher = book_publisher;
+        this.book_type = book_type;
+        this.book_date = book_date;
+        this.book_count = book_count;
+    }
+
     public String getBook_id() {
         return book_id;
     }

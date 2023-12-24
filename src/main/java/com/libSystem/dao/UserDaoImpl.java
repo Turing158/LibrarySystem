@@ -63,9 +63,9 @@ public class UserDaoImpl implements UserDao{
 
 //    更改用户权限
     @Override
-    public int updateUserPermission(String user, int permission) {
-        String sql = "update user set user_permission=? where user_id=?";
-        Object[] args = {permission,user};
+    public int updateUser(User user) {
+        String sql = "update user set user_permission=?,user_name=?,user_password=? where user_id=?";
+        Object[] args = {user.getUser_permission(),user.getUser_name(),user.getUser_password(),user.getUser_id()};
         return jdbcTemplate.update(sql,args);
     }
 

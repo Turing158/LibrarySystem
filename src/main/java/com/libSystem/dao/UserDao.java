@@ -11,6 +11,6 @@ public interface UserDao {
     User findUser(String id);
     int insertUser(User user);
     int deleteUser(String id);
-    int updateUserPermission(String user,int permission);
+    int updateUser(User user);
     int existLogByUser(String user);
 }

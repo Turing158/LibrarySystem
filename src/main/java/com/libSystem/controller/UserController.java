@@ -66,4 +66,50 @@ public class UserController {
         return "redirect:/reg";
     }
 
+    @GetMapping("/editUser")
+    public String editUserPage(
+            @RequestParam String id,
+            HttpSession session
+    ){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/login";
+        }
+        userService.editUserPage(id,session);
+        return "editUser";
+    }
+    @PostMapping("/updateUser")
+    public String editUser(
+            @RequestParam String id,
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam int permission,
+            HttpSession session
+    ){
+        User userObj = (User) session.getAttribute("user");
+        if(userObj == null){
+            return "redirect:/login";
+        }
+        User user = new User();
+        user.setUser_id(id);
+        user.setUser_name(username);
+        user.setUser_password(password);
+        user.setUser_permission(permission);
+        userService.updateUser(user,session);
+        return "redirect:/user";
+    }
+
+
+    @GetMapping("/deleteUser")
+    public String deleteUser(
+            @RequestParam String id,
+            HttpSession session
+    ){
+        User userObj = (User) session.getAttribute("user");
+        if(userObj == null){
+            return "redirect:/login";
+        }
+        userService.deleteUser(id,session);
+        return "redirect:/user";
+    }
 }

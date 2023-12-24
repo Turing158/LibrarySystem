@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,69 +64,70 @@ public class BookService {
     }
 
 //    获取书类型
-    public Result getBook_type(){
-        Result result = new Result();
-        result.setObject(bookDao.findAllBookType());
-        return result;
+    public String getBook_type(
+            HttpSession session
+    ){
+        session.setAttribute("bookType",bookDao.findAllBookType());
+        return "success";
     }
 
 //    添加新书
-    public Result insertBook(Book book){
-        Result result = new Result();
-        int exist = bookDao.existBook(book.getBook_id());
-        if(exist == 0){
-            String date = book.getBook_date();
-            book.setBook_date(date.substring(0,10));
-            bookDao.insertBook(book);
-            result.setStatus("success");
-            return result;
+    public String insertBook(Book book,HttpSession session){
+        session.setAttribute("editBookInfo",book);
+        List<BookType> types = bookDao.findAllBookType();
+        for (int i = 0; i < types.size(); i++) {
+            BookType bookType = types.get(i);
+            if(book.getBook_type().equals(bookType.getType_id())){
+                session.setAttribute("editBookInfoTypeName",bookType.getType_name());
+                break;
+            }
         }
-        result.setStatus("书已经存在");
-        return result;
+        int exist = bookDao.existBook(book.getBook_id());
+        if(allPropertiesNotNull(book)){
+            if(exist == 0){
+                String date = book.getBook_date();
+                book.setBook_date(date.substring(0,10));
+                bookDao.insertBook(book);
+                session.removeAttribute("editBookInfoTypeName");
+                session.removeAttribute("editBookInfo");
+
+                session.setAttribute("tips","添加成功!");
+                return "success";
+            }
+            session.setAttribute("tips","该书号已存在!");
+            return "error-exist";
+        }
+        session.setAttribute("tips","请填写完整信息!");
+        return "error-null";
     }
 
 
 //    更新书
-    public Result updateBook(ShowBook showBook){
-        Result result = new Result();
-        if(bookDao.existBook(showBook.getBook_id()) == 1){
-            Book book = new Book();
-            book.setBook_id(showBook.getBook_id());
-            book.setBook_name(showBook.getBook_name());
-            book.setBook_author(showBook.getBook_author());
-            book.setBook_publisher(showBook.getBook_publisher());
-            book.setBook_date(showBook.getBook_date());
-            book.setBook_count(showBook.getBook_count());
-            List<BookType> types = bookDao.findAllBookType();
-            for (int i = 0; i < types.size(); i++) {
-                BookType bookType = types.get(i);
-                if(showBook.getType_name().equals(bookType.getType_name())){
-                    book.setBook_type(bookType.getType_id());
-                    break;
-                }
-            }
+    public String updateBook(Book book,HttpSession session){
+        if(bookDao.existBook(book.getBook_id()) == 1){
             bookDao.updateBook(book);
-            result.setStatus("success");
-            return result;
+            session.setAttribute("tips","更新成功");
+            session.removeAttribute("editBookInfoTypeName");
+            session.removeAttribute("editBookInfo");
+            return "success";
         }
-        result.setStatus("error-id");
-        return result;
+        session.setAttribute("tips","该书不存在");
+        return "error";
     }
 
 //    删除书
-    public Result deleteBook(String id){
-        Result result = new Result();
+    public String deleteBook(String id,HttpSession session){
         if(bookDao.existBook(id) == 1){
             if(bookDao.existLogByBook(id) == 0){
                 bookDao.deleteBook(id);
-                result.setStatus("success");
-                return result;
+                session.setAttribute("tips","删除成功");
+                return "success";
             }
-            result.setStatus("此书已借，无法删除");
-            return result;
+            session.setAttribute("tips","该书有借阅记录，无法删除");
+            return "error";
         }
-        result.setStatus("error-id");
-        return result;
+        session.setAttribute("tips","该书不存在");
+        return "error";
     }
 
 
@@ -160,5 +162,37 @@ public class BookService {
         return "success";
     }
 
+    public String editBookPage(String id,HttpSession session){
+        session.setAttribute("editBookInfo",bookDao.findBookById(id));
+        List<BookType> types = bookDao.findAllBookType();
+        session.setAttribute("bookType",types);
+        for (int i = 0; i < types.size(); i++) {
+            BookType bookType = types.get(i);
+            if(bookDao.findBookById(id).getBook_type().equals(bookType.getType_id())){
+                session.setAttribute("editBookInfoTypeName",bookType.getType_name());
+                break;
+            }
+        }
+        return "success";
+    }
 
+    public boolean allPropertiesNotNull(Object obj) {
+        Class<?> clazz = obj.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(obj);
+                if (value == null) {
+                    return false; // 如果发现任何一个属性为空，则返回false
+                }
+            } catch (IllegalAccessException e) {
+                // 处理IllegalAccessException异常
+                e.printStackTrace();
+            }
+        }
+
+        return true; // 如果所有属性都不为空，则返回true
+    }
 }

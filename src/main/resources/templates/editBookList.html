@@ -25,7 +25,7 @@
         <li class="user" th:if="${session.user != null}"><span th:text="${session.user.getUser_name()}">某某某</span><div class="exit" onclick="exit()">退出登录</div></li>
     </ul>
     <div class="main">
-      <button class="add-book-button">添加书籍</button>
+      <button class="add-book-button" onclick="window.location.href='/addBookPage'">添加书籍</button>
       <br><br>
         <table>
           <tr>
@@ -40,7 +40,7 @@
             <th>操作</th>
           </tr>
           <tr th:each="book : ${session.books}">
-              <td th:text="${book.getBook_id()}">id</td>
+              <td th:text="${book.getBook_id()}" class="book_id">id</td>
               <td th:text="${book.getBook_name()}">name</td>
               <td th:text="${book.getBook_author()}">author</td>
               <td th:text="${book.getBook_publisher()}">publisher</td>
@@ -59,7 +59,7 @@
             <button class="pagination-button" th:onclick="|next('editbook',${session.page.getPageNow()},${session.page.getEnd()})|">下一页</button>
             <button class="pagination-button" th:onclick="|end('editbook',${session.page.getPageNow()},${session.page.getEnd()})|">尾页</button>
             <input type="number" class="pagination-input" placeholder="">
-            <button class="pagination-button" onclick="jump('book')">跳转</button>
+            <button class="pagination-button" onclick="jump('editbook')">跳转</button>
         </div>
         <script src="js/page.js"></script>
     </div>
