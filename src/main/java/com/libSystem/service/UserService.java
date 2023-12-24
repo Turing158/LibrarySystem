@@ -81,21 +81,6 @@ public class UserService {
         return "error-code";
     }
 
-//    获取所有用户数量
-    public Result countUser(){
-        Result result = new Result();
-        result.setStatus("success");
-        result.setObject(userDao.countUser());
-        return result;
-    }
-
-//    获取所有用户
-    public Result findAllUser(int page){
-        Result result = new Result();
-        result.setStatus("success");
-        result.setObject(userDao.findAll((page-1)*10));
-        return result;
-    }
 
 //    更新用户权限
     public Result updateUserPermission(String user,int permission){

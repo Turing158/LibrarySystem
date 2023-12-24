@@ -44,34 +44,10 @@ public class BookService {
         session.setAttribute("page",pageBook);
         return "success";
     }
-//    获取所有书
-    public Result findAllBook(int page){
-        Result result = new Result();
-        List<ShowBook> books = bookDao.findAll((page-1)*10);
-        result.setObject(books);
-        result.setStatus("success");
-        return result;
-    }
 
-//    获取所有书数量
-    public Result countBook(){
-        Result result = new Result();
-        result.setObject(bookDao.countAll());
-        result.setStatus("success");
-        return result;
-    }
 
-//    根据书id查找书
-    public Result findBookById(String id){
-        Result result = new Result();
-        if(bookDao.existBook(id) == 1){
-            result.setObject(bookDao.findBookById(id));
-            result.setStatus("success");
-            return result;
-        }
-        result.setStatus("error");
-        return result;
-    }
+
+
 
 //  根据名字搜索书
     public Result findBook(String name,int page){
@@ -152,21 +128,6 @@ public class BookService {
         return result;
     }
 
-//    获取该用户所借的书
-    public Result findUserBook(String user,int page){
-        Result result = new Result();
-        result.setObject(bookDao.findUserBook(user, (page-1)*10));
-        result.setStatus("success");
-        return result;
-    }
-
-//    获取该用户借了几本书
-    public Result countUserBook(String user_id){
-        Result result = new Result();
-        result.setObject(bookDao.countUserBook(user_id));
-        result.setStatus("success");
-        return result;
-    }
 
 //    借书业务
     public String borrowBook(String bookId,HttpSession session){
