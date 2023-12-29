@@ -19,6 +19,14 @@ let editBtn = document.querySelectorAll(".edit-button");
 let deleteBtn = document.querySelectorAll(".delete-button");
 let book_idStr = document.querySelectorAll(".book_id");
 let logDateStr = document.querySelectorAll(".log_date");
+setTimeout(function (){
+    unlockBtn();
+},1000)
+function unlockBtn(){
+    for(let i=0;i<borrowBtn.length;i++){
+        borrowBtn[i].disabled = false
+    }
+}
 for(let i=0;i<borrowBtn.length;i++){
     borrowBtn[i].onclick = function(){
         book_id = book_idStr[i].textContent

@@ -63,6 +63,7 @@ public class CodeService {
         }
         return sb.toString();
     }
+
     //获取随机背景颜色
     public Color getBackColor(){
         int red = r.nextInt(256);

@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>编辑书籍</title>
     <link rel="stylesheet" href="css/edit.css">
 </head>
 <body>
     <h1>正在编辑书籍. . .</h1>
-    <form>
+    <form action="/updateBook" method="post">
         <label for="id">书号:</label>
-        <input type="text" id="id" name="id" disabled><br><br>
+        <input type="text" id="id" th:value="${session.editBookInfo.getBook_id()}" disabled><br><br>
+        <input type="text" name="id" th:value="${session.editBookInfo.getBook_id()}" hidden>
 
         <label for="name">书名:</label>
-        <input type="text" id="name" name="name" required><br><br>
+        <input type="text" id="name" name="name" th:value="${session.editBookInfo.getBook_name()}" required><br><br>
         
         <label for="author">作者:</label>
-        <input type="text" id="author" name="author" required><br><br>
+        <input type="text" id="author" name="author" th:value="${session.editBookInfo.getBook_author()}" required><br><br>
 
         <label for="publisher">出版社:</label>
-        <input type="text" id="publisher" name="publisher" required><br><br>
+        <input type="text" id="publisher" name="publisher" th:value="${session.editBookInfo.getBook_publisher()}" required><br><br>
 
-        <label for="permissions">类型:</label>
-        <select id="permissions" name="permissions" required>
-            <option value="" hidden></option>
-            <option value="0">普通用户</option>
-            <option value="1">管理员</option>
+        <label for="type">类型:</label>
+        <select id="type" name="type" required>
+            <option th:value="${session.editBookInfo.getBook_type()}" th:text="${session.editBookInfoTypeName}" hidden></option>
+            <option th:each="type : ${session.bookType}" th:value="${type.getType_id()}" th:text="${type.getType_name()}">普通用户</option>
         </select><br><br>
         
         <label for="date">入库时间:</label>
-        <input type="date" id="date" name="date" required><br><br>
+        <input type="date" id="date" name="date" th:value="${session.editBookInfo.getBook_date()}" required><br><br>
 
         <label for="count">数量:</label>
-        <input type="text" id="count" name="count" required><br><br>
+        <input type="text" id="count" name="count" th:value="${session.editBookInfo.getBook_count()}" required><br><br>
 
-        <button type="submit">提交</button><button class="cancel" type="button">取消</button>
+        <button type="submit">提交</button><button class="cancel" type="button" onclick="window.location.href='/editbook'">取消</button>
     </form>
 </body>
 </html>

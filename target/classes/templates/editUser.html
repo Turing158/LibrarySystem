@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>编辑用户</title>
     <link rel="stylesheet" href="css/edit.css">
 </head>
 <body>
     <h1>正在编辑用户. . .</h1>
-    <form>
+    <form action="/updateUser" method="post">
         <label for="id">用户名:</label>
-        <input type="text" id="id" name="id" disabled><br><br>
+        <input type="text" id="id" th:value="${session.editUser.getUser_id()}" disabled><br><br>
+        <input type="text" name="id" th:value="${session.editUser.getUser_id()}" hidden>
 
         <label for="username">名称:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="permissions">权限:</label>
-        <select id="permissions" name="permissions" required>
-            <option value="" hidden></option>
+        <input type="text" id="username" name="username" th:value="${session.editUser.getUser_name()}" required><br><br>
+
+        <label for="password">密码:</label>
+        <input type="text" id="password" name="password" th:value="${session.editUser.getUser_password()}" required><br><br>
+
+        <label for="permission">权限:</label>
+        <select id="permission" name="permission" required>
+            <option th:if="${session.editUser.getUser_permission() == 0}" value="0" hidden>普通用户</option>
+            <option th:if="${session.editUser.getUser_permission() == 1}" value="1" hidden>管理员</option>
             <option value="0">普通用户</option>
             <option value="1">管理员</option>
         </select><br><br>
 
-        <button type="submit">提交</button><button class="cancel" type="button">取消</button>
+        <button type="submit">提交</button><button class="cancel" type="button" onclick="window.location.href='/user'">取消</button>
     </form>
 </body>
 </html>

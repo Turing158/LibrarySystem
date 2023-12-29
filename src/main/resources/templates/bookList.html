@@ -50,7 +50,7 @@
           <td th:text="${book.getType_position()}">position</td>
           <td th:text="${book.getBook_date()}">date</td>
           <td th:text="${book.getBook_count()}">count</td>
-          <td><button class="borrow-button">借书</button></td>
+          <td><button class="borrow-button" disabled>借书</button></td>
         </tr>
       </table>
       <div class="operatePage">
@@ -60,7 +60,7 @@
           <span class="totalPage" th:text="'第'+${session.page.getEnd()}+'页'">共1页</span>
           <button class="pagination-button" th:onclick="|next('book',${session.page.getPageNow()},${session.page.getEnd()})|">下一页</button>
           <button class="pagination-button" th:onclick="|end('book',${session.page.getPageNow()},${session.page.getEnd()})|">尾页</button>
-          <input type="number" class="pagination-input" placeholder="">
+          <input type="number" class="pagination-input" placeholder="" min="1" th:max="${session.page.getEnd()}">
           <button class="pagination-button" onclick="jump('book')">跳转</button>
       </div>
       <script src="js/page.js"></script>

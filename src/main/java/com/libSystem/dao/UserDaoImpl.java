@@ -76,6 +76,4 @@ public class UserDaoImpl implements UserDao{
         Object[] args = {user};
         return jdbcTemplate.queryForObject(sql,args,Integer.class);
     }
-
-
 }
